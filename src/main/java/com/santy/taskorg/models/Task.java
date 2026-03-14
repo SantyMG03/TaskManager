@@ -2,7 +2,7 @@ package com.santy.taskorg.models;
 
 public class Task {
     private String title;
-    private String deliveryDate;
+    private String dueDate;
 
     public Task() {}
 
@@ -14,11 +14,11 @@ public class Task {
         this.title = title;
     }
 
-    public String getDeliveryDate() {
-        return deliveryDate;
+    public String getDueDate() {
+        return dueDate;
     }
 
-    public void setDeliveryDate(String deliveryDate) {
-        this.deliveryDate = deliveryDate;
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 }

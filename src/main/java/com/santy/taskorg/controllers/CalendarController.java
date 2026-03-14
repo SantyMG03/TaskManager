@@ -46,7 +46,7 @@ public class CalendarController {
         String accessToken = client.getAccessToken().getTokenValue();
 
         try {
-            calendarService.createEvent(accessToken, t.getTitle(), t.getDeliveryDate());
+            calendarService.createEvent(accessToken, t.getTitle(), t.getDueDate());
             model.addAttribute("messageSuccess", "Task '" + t.getTitle() + "' added to your Google Calendar.");
         } catch (Exception e) {
             model.addAttribute("messageError", "Oops, hubo there was a problem: " + e.getMessage());
