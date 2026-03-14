@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment Tracker</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; max-width: 600px; }
+        .container { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="date"] { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { padding: 10px 15px; background-color: #4285F4; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #357AE8; }
+        .success { color: green; background-color: #e6ffe6; padding: 10px; border-radius: 4px; margin-bottom: 15px; }
+        .error { color: red; background-color: #ffe6e6; padding: 10px; border-radius: 4px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Hello, <span th:text="${userName}">User</span>! 👋</h1>
+        <p>Add your next assignment to your calendar:</p>
+
+        <div th:if="${successMessage}" class="success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}" class="error" th:text="${errorMessage}"></div>
+
+        <form th:action="@{/create-task}" th:object="${task}" method="post">
+
+            <div class="form-group">
+                <label for="title">What is the assignment?</label>
+                <input type="text" id="title" th:field="*{title}" placeholder="e.g., Spring Boot Project" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dueDate">Due Date</label>
+                <input type="date" id="dueDate" th:field="*{dueDate}" required>
+            </div>
+
+            <button type="submit">Add to Google Calendar 📅</button>
+
+        </form>
+    </div>
+
+</body>
+</html>
