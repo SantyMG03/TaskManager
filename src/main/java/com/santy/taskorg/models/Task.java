@@ -1,6 +1,7 @@
 package com.santy.taskorg.models;
 
 import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,7 +9,7 @@ import java.time.LocalDate;
 
 public class Task {
 
-    @NotNull(message = "Title cannot be empty")
+    @NotBlank(message = "Title cannot be empty")
     private String title;
 
     @NotNull(message = "Please select a date")
