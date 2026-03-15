@@ -2,6 +2,7 @@ package com.santy.taskorg.controllers;
 
 import com.santy.taskorg.models.Task;
 import com.santy.taskorg.services.CalendarService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -9,6 +10,7 @@ import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2Aut
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,9 +40,19 @@ public class CalendarController {
     // Receive the form data and create the event
     @PostMapping("/create-task")
     public String createTask(
-            @ModelAttribute Task t,
+            @Valid @ModelAttribute Task t,
+            BindingResult br,
             @RegisteredOAuth2AuthorizedClient("google") OAuth2AuthorizedClient client,
+            @AuthenticationPrincipal OAuth2User principal,
             Model model) {
+
+        // If there are error, it goes back to homepage
+        if (br.hasErrors()) {
+            if (principal != null) {
+                model.addAttribute("userName", principal.getAttribute("name"));
+            }
+            return "index";
+        }
 
         // Retrieves security token
         String accessToken = client.getAccessToken().getTokenValue();
