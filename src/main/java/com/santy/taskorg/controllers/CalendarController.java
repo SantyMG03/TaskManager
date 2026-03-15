@@ -59,13 +59,19 @@ public class CalendarController {
 
         try {
             calendarService.createEvent(accessToken, t.getTitle(), t.getDueDate());
-            model.addAttribute("messageSuccess", "Task '" + t.getTitle() + "' added to your Google Calendar.");
-        } catch (Exception e) {
-            model.addAttribute("messageError", "Oops, hubo there was a problem: " + e.getMessage());
-        }
 
-        // Goes back to the homepage
-        model.addAttribute("task", new Task()); // Form cleaning
-        return "index";
+            model.addAttribute("taskTitle", t.getTitle());
+            model.addAttribute("taskDate", t.getDueDate().toString());
+
+            return "success"; // Redirects to the success page
+        } catch (Exception e) {
+            // Catch error
+            model.addAttribute("messageError", "Oops, there was a problem: " + e.getMessage());
+
+            model.addAttribute("task", new Task());
+
+            // Return to homepage
+            return "index";
+        }
     }
 }
