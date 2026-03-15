@@ -28,12 +28,14 @@
 
             <div class="form-group">
                 <label for="title">What is the assignment?</label>
-                <input type="text" id="title" th:field="*{title}" placeholder="e.g., Spring Boot Project" required>
+                <input type="text" id="title" th:field="*{title}" placeholder="e.g., Spring Boot Project">
+                <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color: red; font-size: 0.9em; margin-top: 5px;"></div>
             </div>
 
             <div class="form-group">
                 <label for="dueDate">Due Date</label>
-                <input type="date" id="dueDate" th:field="*{dueDate}" required>
+                <input type="date" id="dueDate" th:field="*{dueDate}">
+                <div th:if="${#fields.hasErrors('dueDate')}" th:errors="*{dueDate}" style="color: red; font-size: 0.9em; margin-top: 5px;"></div>
             </div>
 
             <button type="submit">Add to Google Calendar 📅</button>
