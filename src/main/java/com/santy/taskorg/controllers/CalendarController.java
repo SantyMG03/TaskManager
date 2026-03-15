@@ -1,6 +1,7 @@
 package com.santy.taskorg.controllers;
 
 import com.santy.taskorg.models.Task;
+import com.santy.taskorg.repository.TaskRepository;
 import com.santy.taskorg.services.CalendarService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class CalendarController {
 
     private final CalendarService calendarService;
+    private final TaskRepository taskRepository;
 
-    public CalendarController(CalendarService calendarService) {
+    public CalendarController(CalendarService calendarService, TaskRepository taskRepository) {
         this.calendarService = calendarService;
+        this.taskRepository = taskRepository;
     }
 
     // Shows homepage with form
@@ -58,7 +61,11 @@ public class CalendarController {
         String accessToken = client.getAccessToken().getTokenValue();
 
         try {
+            // Sent to Google
             calendarService.createEvent(accessToken, t.getTitle(), t.getDueDate());
+
+            // Saved into our database
+            taskRepository.save(t);
 
             model.addAttribute("taskTitle", t.getTitle());
             model.addAttribute("taskDate", t.getDueDate().toString());
@@ -73,5 +80,15 @@ public class CalendarController {
             // Return to homepage
             return "index";
         }
+    }
+
+    @GetMapping("/history")
+    public String showHistory(Model model, @AuthenticationPrincipal OAuth2User principal) {
+        if (principal != null) {
+            model.addAttribute("userName", principal.getAttribute("name"));
+        }
+        model.addAttribute("tasks", taskRepository.findAll());
+
+        return "history";
     }
 }
