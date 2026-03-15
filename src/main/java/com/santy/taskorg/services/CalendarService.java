@@ -8,6 +8,8 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class CalendarService {
 
@@ -16,7 +18,7 @@ public class CalendarService {
      * @param title Name of the event
      * @param date The date in format of YYYY-MM-DD
      */
-    public void createEvent(String accessToken, String title, String date) throws Exception {
+    public void createEvent(String accessToken, String title, LocalDate date) throws Exception {
         Calendar service = new Calendar.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),
                 GsonFactory.getDefaultInstance(),
